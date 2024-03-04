@@ -71,6 +71,10 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                            <!-- <div class="form-group mt-2">
+                                <label for="">Upload Image</label>
+                                <input type="file" name="image"  value="{{ $student->image }}" required class="course form-control">
+                            </div> -->
                             <button type="submit" class="btn btn-primary mt-3">Submit</button>
                         </form>
                     </div>

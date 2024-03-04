@@ -33,8 +33,18 @@
                                         <td><img src="<?php echo asset('storage/' . $student->image); ?>" class="rounded-circle" width="50" height="50" ></td>
                                         <td>{{ $student->user->name }}</td>
                                         <td>{{$student->updated_by}}</td>
-                                        <td>
-                                            <div>
+                                        <td class="d-flex">
+
+                                            <a href="{{route('student.edit', $student->id)}}" class="btn btn-primary me-1">edit</i>
+                                            </span></a>
+                                            <form action="{{route('student.delete', $student->id)}}" method="POST" >
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-primary me-1" onclick="return confirm('Do you want to delete this product?');">delete</button>
+                                            </form>
+                                            <!-- <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Do you want to delete this product?');"><i class="bi bi-trash"></i> Delete</button> -->
+                                            <a href="{{route('student.view', $student->id)}}" class="btn btn-primary me-1 ">view</a>
+                                            <!-- <div>
                                                 <td>
                                                     <a href="{{route('student.edit', $student->id)}}" class="btn btn-primary me-1">edit</a>
                                                 </td>
@@ -48,13 +58,14 @@
                                                 <td>
                                                     <a href="{{route('student.view', $student->id)}}" class="btn btn-primary me-1 ">view</a>
                                                 </td>
-                                            </div>
+                                            </div> -->
                                         </td>
 
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
+                            {{ $students->links() }}
                         </div>
 
                     </div>

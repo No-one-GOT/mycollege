@@ -69,7 +69,7 @@ class StudentController extends Controller
 
     public function student_list()
     {
-        $students = student::all();
+        $students = student::orderBy('id', 'desc')->paginate(5);
         return view('student.student_list', compact('students'));
     }
 
@@ -89,8 +89,19 @@ class StudentController extends Controller
             'country' => 'required',
             'phone' => 'required',
             'email' => 'required',
-            'image' => 'required|mimes:jpeg,jpg,png,gif',
+            // 'image' => 'required|mimes:jpeg,jpg,png,gif',
         ]);
+
+// if ($request->hasFile('image')) {
+//     $file = $request->file('image');
+//     // Debugging: Log the file details
+//     Log::info('Uploaded file details:', ['name' => $file->getClientOriginalName(), 'size' => $file->getSize()]);
+
+//     $extension = $file->getClientOriginalExtension();
+//     $filename = md5(time()) . '.' . $extension;
+//     $file->move(public_path('students'), $filename);
+//     $data->image = $filename;
+// }
 
         $data = student::find($id);
         $data->name = $request->name;
@@ -106,11 +117,30 @@ class StudentController extends Controller
         return redirect()->route('student.update', $id)->with('success', 'Student information update Successfully?');
 
     }
+
+    // public function student_delete($id):RedirectResponse
+    // {
+    //     $student->delete();
+    //     return redirect()->route('student.list')
+    //             ->withSuccess('student information is deleted successfully.');
+    // }
+    // public function student_delete($id)
+    // {
+    //     $student = student::find($id);
+    //     $student->delete();
+    //     return redirect()->route('student.list');
+    // }
+
     public function student_delete($id)
     {
-        $student = student::find($id);
+        // Find the student record by ID
+        $student = Student::findOrFail($id);
+
+        // Delete the student record
         $student->delete();
-        return redirect()->route('student.list');
+
+        // Redirect to the student list page with a success message
+        return redirect()->route('student.list')->withSuccess('Student information is deleted successfully.');
     }
     public function student_view($id)
     {
